@@ -25,7 +25,12 @@
 # Development environment
 
 
-# Data Structures and functions
+# Program Design
+
+The Diabolic Magic Squares Generator generates three different squares using the SANC method.
+The SANC method consists on building four different matrixes: S, A, N and C. Each of those matrixes are multiplied by a integer (1, 2, 4 or 8) in a specific order and their sum generates a Diabolic Magic Square. 
+
+##Algorithms
 
 
 # Project Final Status
@@ -37,8 +42,9 @@
 
 | Activity                    | Description                          | Time(h)   |
 |:---------------------------:|:------------------------------------:|:---------:|
-|Meeting with Pablo           | Investigation                      	 | 1         |
-
+|Meeting with Pablo           | Research                         	 | 1         |
+|Research                     | Building methods                     |1       |
+|Development                  | SANC Matrix builder for the generator |   4   |
 
 **Pablo Rodriguez**
 
