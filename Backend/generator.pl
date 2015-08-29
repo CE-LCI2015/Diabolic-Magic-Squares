@@ -7,7 +7,7 @@
 generateMatrix(Type, Matrix) :- generateMatrix(4, 4, Type, [], Matrix).
 
 /*Stops the process*/
-generateMatrix(Cols, 0, Type, Matrix, Matrix) :- !.
+generateMatrix(_, 0, _, Matrix, Matrix).
 
 /*Generates a line*/
 generateMatrix(Cols, Rows, Type, Res, Matrix) :- Rows > 0, NewRows is Rows - 1, generateList(Cols, Rows, Type, NewRow), generateMatrix(Cols, NewRows, Type, [NewRow|Res], Matrix).
@@ -23,7 +23,7 @@ generateMatrix(Cols, Rows, Type, Res, Matrix) :- Rows > 0, NewRows is Rows - 1, 
 generateList(Cols, Rows, Type, List) :- generateList(Cols, Rows, Type, [], List).
 
 /*Stops the process*/
-generateList(0, Rows, Type, List, List) :- !.
+generateList(0, _, _, List, List).
 
 /*Fills the line with a one or a zero, based on the current position and type (using evaluatePosition(...))*/
 generateList(Cols, Rows, Type, Res, List) :- Cols > 0, (Type="None" ; not(evaluatePosition(Cols, Rows, Type))), NewCols is Cols - 1,  generateList(NewCols, Rows, Type, [0|Res], List).
@@ -57,7 +57,7 @@ even(N):- 0 is N mod 2.
 /*Multiply a matrix by a scalar.
 */
 scalarProd(N,M,L):-scalarProd(N,M,[],L).
-scalarProd(N,[],L,L):-!.
+scalarProd(_,[],L,L).
 scalarProd(N,[H|T],NL,L):- number(H), B is N*H, append(NL,[B],Tmp), scalarProd(N,T,Tmp,L).
 scalarProd(N,[H|T],NL,L):- is_list(H), scalarProd(N,H,[],R), append(NL,[R],Tmp), scalarProd(N,T,Tmp,L).
 
@@ -68,7 +68,7 @@ scalarProd(N,[H|T],NL,L):- is_list(H), scalarProd(N,H,[],R), append(NL,[R],Tmp),
 /*Adds the elements of two matrix.
 */
 matrixSum(A,B,L):-matrixSum(A,B,[],L).
-matrixSum([],[],L,L):-!.
+matrixSum([],[],L,L).
 matrixSum([AH|AT],[BH|BT],R,L):-number(AH), number(BH), RT is AH+BH, append(R,[RT],Tmp), matrixSum(AT,BT,Tmp,L).
 matrixSum([AH|AT],[BH|BT],R,L):-is_list(AH), is_list(BH), matrixSum(AH,BH,[],RT), append(R,[RT],Tmp), matrixSum(AT,BT,Tmp,L).
 
@@ -84,7 +84,7 @@ createSquare(Type,L):- number(Type), generateMatrix("S",S), generateMatrix("A",A
 				(Type = 1, scalarProd(2,A,NA),scalarProd(4,N,NN),scalarProd(1,C,NC));
 				(Type = 2, scalarProd(4,A,NA),scalarProd(2,N,NN),scalarProd(1,C,NC))
 			),
-			matrixSum(NS,NA,TOne), matrixSum(NN,NC,TTwo), matrixSum(TOne,TTwo,L).
+			matrixSum(NS,NA,TmpOne), matrixSum(NN,NC,TmpTwo), matrixSum(TmpOne,TmpTwo,TmpThree), callocMatrix(4,1,I),  matrixSum(TmpThree,I,L).
 
 
 /*** PRED ***/
@@ -96,11 +96,25 @@ createSquare(Type,L):- number(Type), generateMatrix("S",S), generateMatrix("A",A
 */
 checkColsNRows(M):- generateList(4,0,"None",L), checkColsNRows(M,L).
 checkColsNRows([],[]).
-checkColsNRows([],[RColH|RColT]):- RColH = 30, checkColsNRows([],RColT).
+checkColsNRows([],[34|RColT]):- checkColsNRows([],RColT).
 checkColsNRows([H|T],RCol):- checkRows(H,0), matrixSum(H,RCol,Tmp),  checkColsNRows(T,Tmp).
 
 /*Checks the sum of the rows
 * RRow is used as partial result. Whe the reicived list is empty, RRow has to be equal to 34.
 */ 
-checkRows([],RRow):- RRow = 30, !.
+checkRows([],34).
 checkRows([H|T],RRow):- Tmp is RRow+H,checkRows(T,Tmp).
+
+
+/*** PRED ***/
+
+
+/*Generates a MxN or MxM matrix with the specified element(chr)
+*/
+callocMatrix(M,Chr,L):-callocMatrix(M,M,Chr,[],L).
+callocMatrix(M,N,Chr,L):-callocMatrix(M,N,Chr,[],L).
+callocMatrix(0,_,_,L,L).
+callocMatrix(M,N,Chr,R,L):- B is M-1, callocList(N,Chr,T), callocMatrix(B,N,Chr,[T|R],L).
+callocList(N,Chr,L):-callocList(N,Chr,[],L).
+callocList(0,_,L,L).
+callocList(N,Chr,R,L):- B is N-1, callocList(B,Chr,[Chr|R],L).
