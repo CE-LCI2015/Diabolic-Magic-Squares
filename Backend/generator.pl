@@ -50,3 +50,34 @@ evaluatePosition(Column, Row, Type) :-   (Type = "S" , ( (even(Row), Column < 3)
 /*Returns true if the number is even
 */
 even(N):- 0 is N mod 2.
+
+
+/*** PRED ***/
+
+
+scalarProd(N,M,L):-scalarProd(N,M,[],L).
+scalarProd(N,[],L,L):-!.
+scalarProd(N,[H|T],NL,L):- number(H), B is N*H, append(NL,[B],Tmp), scalarProd(N,T,Tmp,L).
+scalarProd(N,[H|T],NL,L):- is_list(H), scalarProd(N,H,[],R), append(NL,[R],Tmp), scalarProd(N,T,Tmp,L).
+
+
+/*** PRED ***/
+
+
+matrixSum(A,B,L):-matrixSum(A,B,[],L).
+matrixSum([],[],L,L):-!.
+matrixSum([AH|AT],[BH|BT],R,L):-number(AH), number(BH), RT is AH+BH, append(R,[RT],Tmp), matrixSum(AT,BT,Tmp,L).
+matrixSum([AH|AT],[BH|BT],R,L):-is_list(AH), is_list(BH), matrixSum(AH,BH,[],RT), append(R,[RT],Tmp), matrixSum(AT,BT,Tmp,L).
+
+
+/*** PRED ***/
+
+
+createSquare(Type,L):- number(Type), generateMatrix("S",S), generateMatrix("A",A), generateMatrix("N",N), generateMatrix("C",C),scalarProd(8,S,NS),
+			(
+				(Type = 0, scalarProd(1,A,NA),scalarProd(4,N,NN),scalarProd(2,C,NC));
+				(Type = 1, scalarProd(2,A,NA),scalarProd(4,N,NN),scalarProd(1,C,NC));
+				(Type = 2, scalarProd(4,A,NA),scalarProd(2,N,NN),scalarProd(1,C,NC))
+			),
+			matrixSum(NS,NA,TOne), matrixSum(NN,NC,TTwo), matrixSum(TOne,TTwo,L).
+
