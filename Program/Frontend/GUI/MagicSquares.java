@@ -1,5 +1,7 @@
 package Frontend.GUI;
 
+import Frontend.Utils;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,7 +85,12 @@ public class MagicSquares  {
                     return;
                 }
                 input[j][i] = value;
+
             }
+
         }
+        System.out.println(Utils.stringify(input));
+
+
     }
 }
