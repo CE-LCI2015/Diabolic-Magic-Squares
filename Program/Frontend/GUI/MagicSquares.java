@@ -1,5 +1,6 @@
 package Frontend.GUI;
 
+import Frontend.PrologQueries;
 import Frontend.Utils;
 
 import javax.swing.*;
@@ -90,7 +91,14 @@ public class MagicSquares  {
 
         }
         System.out.println(Utils.stringify(input));
-
+        if(PrologQueries.checkDiabolic(input))
+        {
+            msgbox("Congrats, it is a Diabolic Magic Square :)");
+        }
+        else
+        {
+            msgbox("It's not a Diabolic Magic Square :(");
+        }
 
     }
 }

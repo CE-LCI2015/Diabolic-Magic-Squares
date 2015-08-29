@@ -1,5 +1,6 @@
 package Frontend;
 import Frontend.GUI.MagicSquares;
+import Frontend.GUI.ShowMatrix;
 import org.jpl7.Atom;
 import org.jpl7.Query;
 import org.jpl7.Term;
@@ -22,11 +23,19 @@ public class Main {
                         new Term[] {new Atom(path)}
                 );
 
-        System.out.println( "Consult " + (q1.hasSolution() ? "succeeded" : "failed"));
+        System.out.println("Consult " + (q1.hasSolution() ? "succeeded" : "failed"));
 
+        //int[][] test = {{1,8,13,12},{14,11,2,7},{4,5,16,9},{15,10,3,6}};
+        //PrologQueries.checkDiabolic(test);
+        int[][][] list = {
+                {{1,2,3,4},{4,3,2,1},{1,2,3,4},{4,3,2,1}},
+                {{1,2,3,5},{5,3,2,1},{1,2,3,5},{5,3,2,1}},
+                {{2,2,3,5},{2,3,2,1},{2,2,3,5},{2,3,2,1}}
+        };
 
-        MagicSquares magic = new MagicSquares();
-        magic.main();
+        ShowMatrix.main(list);
+
+        //MagicSquares.main();
 
 
 
