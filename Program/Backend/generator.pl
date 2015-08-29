@@ -1,15 +1,3 @@
-
-
-/*** PRED ***/
-
-
-/*Tells if it is a Diabolic magic square
-*/
-
-diabolic(Matrix) :- checkRows(Matrix).
-
-
-
 /*** PRED ***/
 
 
@@ -233,3 +221,44 @@ createSquaresFromLists([AH|AT],[BH|BT],I,X,Y,Z):- NI is I+1,
 */
 checkTwoxTwoSquares([_|ST]):- ST = [].
 checkTwoxTwoSquares([SH|ST]):- firstOut(ST,STH,_), createSquaresFromLists(SH,STH), checkTwoxTwoSquares(ST).
+
+
+/*** PRED ***/
+
+
+/*Gets the last element of a list
+*/
+getLast(L,E):- getLast(L,[],E).
+getLast([],E,E).
+getLast([H|T],Tmp,E):-getLast(T,H,E).
+
+/*Realize the swap of the rotation at center point
+*/
+pseudoSwap(A,B,NA,NB):- pseudoSwap(A,B,_,[],NA,[],NB,0). 
+pseudoSwap([],[],_,A,A,B,B,_).
+pseudoSwap([AH|AT],[BH|BT],T,NA,A,NB,B,J):- NJ is J+1,
+						(
+					 	 (J=0, append(NA,[AH],TmpA), firstOut(AT,ATH,_), append(NB,[ATH],TmpB),pseudoSwap(AT,BT,BH,TmpA,A,TmpB,B,NJ));
+					 	 (J=1, append(NA,[T],TmpA), append(NB,[BH],TmpB),pseudoSwap(AT,BT,AH,TmpA,A,TmpB,B,NJ));
+					 	 (J=2, getLast(BT,Tmp), append(NA,[Tmp],TmpA), append(NB,[BH],TmpB),pseudoSwap(AT,BT,AH,TmpA,A,TmpB,B,NJ));
+					 	 (J=3, append(NA,[AH],TmpA), append(NB,[T],TmpB),pseudoSwap(AT,BT,AH,TmpA,A,TmpB,B,NJ))
+						).
+
+/*Rotates at center point
+*/
+rotationAtCenter([H|T],NS):- 	firstOut(T,HH,NT), firstOut(NT,HHH,NNT), firstOut(NNT,HHHH,_), 
+				pseudoSwap(H,HH,NH,NHH), pseudoSwap(HHHH,HHH,NHHHH,NHHH),  
+				append([NH],[NHH],TmpOne),append([NHHH],[NHHHH],TmpTwo),append(TmpOne,TmpTwo,NS).
+
+
+/*** PRED ***/
+
+
+convolutionAux([AH|AT],[BH|BT],NA,NB):-	 lastAtFirst(AT,NAT), firstOut(NAT,AHH,CA), append([AH],[AHH],EA),
+					 lastAtFirst(BT,NBT), firstOut(NBT,BHH,CB), append([BH],[BHH],EB),
+					 reverseList(EB,NEB), reverseList(CB,NCB), append(EA,NEB,NA), append(CA,NCB,NB).
+convolution([H|T],NS):- firstOut(T,HH,NT), firstOut(NT,HHH,NNT), firstOut(NNT,HHHH,_),
+			convolutionAux(H,HH,NH,NHH),convolutionAux(HHH,HHHH,NHHH,NHHHH), 
+			reverseList(NHHH,NHHHR), reverseList(NHHHH,NHHHHR), 
+			append([NH],[NHH],TmpOne), append([NHHHHR],[NHHHR],TmpTwo), append(TmpOne, TmpTwo, NS).
+
