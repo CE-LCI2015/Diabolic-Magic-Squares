@@ -99,11 +99,13 @@ checkColsNRows([],[]).
 checkColsNRows([],[34|RColT]):- checkColsNRows([],RColT).
 checkColsNRows([H|T],RCol):- checkRows(H,0), matrixSum(H,RCol,Tmp),  checkColsNRows(T,Tmp).
 
+
 /*Checks the sum of the rows
 * RRow is used as partial result. Whe the reicived list is empty, RRow has to be equal to 34.
+* It also proofs that adjacent pairs and 2x2 subsquares sums 34
 */ 
 checkRows([],34).
-checkRows([H|T],RRow):- Tmp is RRow+H,checkRows(T,Tmp).
+checkRows([H|T],RRow):- Tmp is RRow+H, checkRows(T,Tmp).
 
 
 /*** PRED ***/
@@ -118,3 +120,104 @@ callocMatrix(M,N,Chr,R,L):- B is M-1, callocList(N,Chr,T), callocMatrix(B,N,Chr,
 callocList(N,Chr,L):-callocList(N,Chr,[],L).
 callocList(0,_,L,L).
 callocList(N,Chr,R,L):- B is N-1, callocList(B,Chr,[Chr|R],L).
+
+
+/*** PRED ***/
+
+
+/*Reverse
+*/
+reverseList(X,L):-reverseList(X,[],L).
+reverseList([],L,L).
+reverseList([H|T],R,L):-reverseList(T,[H|R],L).
+
+
+/*** PRED ***/
+
+
+/*Reflects the matrix
+*/
+reflexion(S,NS):- reflexion(S,[],T), reverseList(T,NS).
+reflexion([],L,L).
+reflexion([H|T],R,L):- reverseList(H,NH), reflexion(T,[NH|R],L).
+
+
+/*** PRED ***/
+
+
+/*Takes the head
+*/
+firstOut(L,E,NL):-firstOut(L,[],E,NL,_).
+firstOut(NL,E,E,NL).
+firstOut([H|T],[],E,NL,_):-firstOut(T,H,E,NL).
+
+
+/*** PRED ***/
+
+
+/*Puts the tail at head
+*/
+lastAtFirst(L,NL):- lastAtFirst(L,[],NL).
+lastAtFirst([],NL,NL).
+lastAtFirst([H|T],R,NL):- T = [], lastAtFirst([],[H|R],NL).
+lastAtFirst([H|T],R,NL):- not(T = []), append(R,[H],Tmp), lastAtFirst(T,Tmp,NL).
+
+
+/*** PRED ***/
+
+
+/*Puts the head at tail and the tail at head
+*/
+reverseHeadAndTail(L,NL):- firstOut(L,H,TmpOne), lastAtFirst(TmpOne, TmpTwo), append(TmpTwo,[H],NL).
+
+
+/*** PRED ***/
+
+
+/*Puts the last row where the first row goes
+*/
+rotationOfRows(S,NS):- reverseHeadAndTail(S,NS).
+
+
+/*** PRED ***/
+
+
+/*Puts the last column where the first column goes
+*/
+rotationOfCols(S,NS):-rotationOfCols(S,[],NS).
+rotationOfCols([],NS,NS).
+rotationOfCols([SH|ST],R,NS):- reverseHeadAndTail(SH, NSH), append(R,[NSH],NR), rotationOfCols(ST,NR,NS).
+
+
+/*** PRED ***/
+
+
+/*Checks if the corners of the four 3x3 squares sums 34
+*/
+txTCornerCheck(S):- txTCornerCheck(S,0,0,0,0,0).
+txTCornerCheck([],RO,RT,RTH,RF,RO,RT,RTH,RF,_,4):-!.
+txTCornerCheck([SH|ST],ROne,RTwo,RThree,RFour,RO,RT,RTH,RF,I,J):- even(I), even(J), Tmp is ROne+SH, NJ is J+1, txTCornerCheck(ST,Tmp,RTwo,RThree,RFour,RO,RT,RTH,RF,I,NJ).
+txTCornerCheck([SH|ST],ROne,RTwo,RThree,RFour,RO,RT,RTH,RF,I,J):- even(I), not(even(J)), Tmp is RTwo+SH, NJ is J+1, txTCornerCheck(ST,ROne,Tmp,RThree,RFour,RO,RT,RTH,RF,I,NJ).
+txTCornerCheck([SH|ST],ROne,RTwo,RThree,RFour,RO,RT,RTH,RF,I,J):- not(even(I)), even(J), Tmp is RThree+SH, NJ is J+1, txTCornerCheck(ST,ROne,RTwo,Tmp,RFour,RO,RT,RTH,RF,I,NJ).
+txTCornerCheck([SH|ST],ROne,RTwo,RThree,RFour,RO,RT,RTH,RF,I,J):- not(even(I)), not(even(J)), Tmp is RFour+SH, NJ is J+1, txTCornerCheck(ST,ROne,RTwo,RThree,Tmp,RO,RT,RTH,RF,I,NJ).
+txTCornerCheck([],34,34,34,34,4):-!.
+txTCornerCheck([SH|ST],ROne,RTwo,RThree,RFour,I):- I<4, NI is I+1, txTCornerCheck(SH,ROne,RTwo,RThree,RFour,RO,RT,RTH,RF,I,0), txTCornerCheck(ST,RO,RT,RTH,RF,NI).
+
+
+/*** PRED ***/
+
+
+/*Creates three digits corresponding to three 2x2 squares that are made by two 4x4 lists.
+*/
+createSquaresFromLists(_,[]).
+createSquaresFromLists(A,B):-createSquaresFromLists(A,B,0,0,0,0).
+createSquaresFromLists([],[],4,34,34,34).
+createSquaresFromLists([AH|AT],[BH|BT],I,X,Y,Z):- NI is I+1,
+							((I=0, Tmp is X+AH+BH, createSquaresFromLists(AT,BT,NI,Tmp,Y,Z)) ;
+							(I=1, TmpO is X+AH+BH, TmpT is Y+AH+BH, createSquaresFromLists(AT,BT,NI,TmpO,TmpT,Z)) ;
+							(I=2, TmpO is Y+AH+BH, TmpT is Z+AH+BH, createSquaresFromLists(AT,BT,NI,X,TmpO,TmpT)) ;
+							(I=3, Tmp is Z+AH+BH, createSquaresFromLists([],[],NI,X,Y,Tmp))).
+/*Checks the sums of the 2x2 subsquares
+*/
+checkTwoxTwoSquares([_|ST]):- ST = [].
+checkTwoxTwoSquares([SH|ST]):- firstOut(ST,STH,_), createSquaresFromLists(SH,STH), checkTwoxTwoSquares(ST).
