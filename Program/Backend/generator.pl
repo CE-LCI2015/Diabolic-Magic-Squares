@@ -80,7 +80,7 @@ lengthM(M,N):-lengthM(M,0,N).
 lengthM([],N,N).
 lengthM([_|T],N,R):- NN is N+1, lengthM(T,NN,R).
 
-generateAll(G):- createAllBases(A), rotateAll(A,B), rotateAllRows(B,C), rotateAllCols(C,D), rotateAllAtCenter(D,E), globalConvolution(E,F), lastCheck(F,G).
+generateAll(H):- createAllBases(A), reflectAll(A,B), rotateAll(B,C), rotateAllRows(C,D), rotateAllCols(D,E), rotateAllAtCenter(E,F), globalConvolution(F,G), lastCheck(G,H).
 
 lastCheck(S,M):-lastCheck(S,[],M).
 lastCheck([],M,M):- !.
