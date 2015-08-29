@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class Main {
     public static void main(String[] args) {
-        String path = new File("src/Backend/generator.pl")
+        String path = new File("Program/Backend/generator.pl")
                 .getAbsolutePath();
         System.out.println(path);
         Query q1 =

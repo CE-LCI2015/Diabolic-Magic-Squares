@@ -1,3 +1,15 @@
+
+
+/*** PRED ***/
+
+
+/*Tells if it is a Diabolic magic square
+*/
+
+diabolic(Matrix) :- checkRows(Matrix).
+
+
+
 /*** PRED ***/
 
 

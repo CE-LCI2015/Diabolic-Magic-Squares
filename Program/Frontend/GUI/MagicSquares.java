@@ -1,5 +1,7 @@
 package Frontend.GUI;
 
+import Frontend.Utils;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,7 +46,6 @@ public class MagicSquares  {
         });
 
         verifyButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 checkMatrix();
             }
@@ -56,7 +57,7 @@ public class MagicSquares  {
     }
 
     public static void main() {
-        JFrame frame = new JFrame("MagicSquares");
+        JFrame frame = new JFrame("MagicSquares2.0");
         frame.setContentPane(new MagicSquares().matrix);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -65,21 +66,31 @@ public class MagicSquares  {
 
     void checkMatrix()
     {
+        int[][] input = new int[4][4];
         System.out.println("Verify");
-        System.out.println("WTF");
-        System.exit(0);
         for (int j = 0; j < textFields.length; j++) {
             for (int i = 0; i < textFields[0].length; i++) {
-                JTextField component = textFields[i][j];
+                JTextField component = textFields[j][i];
                 String text = component.getText();
                 if(text.equals(""))
                 {
-                    msgbox("Wrong Input");
+                    msgbox("Empty slot : "+ i + ", " + j );
                     return;
                 }
-                int value = Integer.valueOf(text);
-                System.out.println(value);
+                int value =0;
+                try {
+                    value = Integer.parseInt(text);
+                } catch (NumberFormatException e) {
+                    msgbox("Not a number in : "+ i + ", " + j );
+                    return;
+                }
+                input[j][i] = value;
+
             }
+
         }
+        System.out.println(Utils.stringify(input));
+
+
     }
 }
