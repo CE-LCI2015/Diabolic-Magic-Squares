@@ -3,6 +3,8 @@ package Frontend.GUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.InputMethodListener;
 
 /**
  * Created by pablo on 28/08/15.
@@ -41,8 +43,17 @@ public class MagicSquares  {
 
         });
 
+        verifyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                checkMatrix();
+            }
+        });
     }
-    
+
+    private void msgbox(String s){
+        JOptionPane.showMessageDialog(null, s);
+    }
 
     public static void main() {
         JFrame frame = new JFrame("MagicSquares");
@@ -52,4 +63,23 @@ public class MagicSquares  {
         frame.setVisible(true);
     }
 
+    void checkMatrix()
+    {
+        System.out.println("Verify");
+        System.out.println("WTF");
+        System.exit(0);
+        for (int j = 0; j < textFields.length; j++) {
+            for (int i = 0; i < textFields[0].length; i++) {
+                JTextField component = textFields[i][j];
+                String text = component.getText();
+                if(text.equals(""))
+                {
+                    msgbox("Wrong Input");
+                    return;
+                }
+                int value = Integer.valueOf(text);
+                System.out.println(value);
+            }
+        }
+    }
 }
