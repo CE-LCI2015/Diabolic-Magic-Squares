@@ -76,13 +76,76 @@ matrixSum([AH|AT],[BH|BT],R,L):-is_list(AH), is_list(BH), matrixSum(AH,BH,[],RT)
 /*** PRED ***/
 
 
+lengthM(M,N):-lengthM(M,0,N).
+lengthM([],N,N).
+lengthM([H|T],N,R):- NN is N+1, lengthM(T,NN,R).
+
+generateAll(M):-createAllBases(Bases), reflectAll(Bases,A), rotateAllRows(A,B), rotateAllCols(B,C), rotateAllAtCenter(C,D),globalConvolution(D,E),lastCheck(E,M).
+
+lastCheck(S,M):-lastCheck(S,[],M).
+lastCheck([],M,M):- !.
+lastCheck([H|T],M,NM):- (checkColsNRows(H), txTCornerCheck(H), checkTwoxTwoSquares(H), lastCheck(T,[H|M],NM)) ; lastCheck(T,M,NM).
+
+isnt([],E).
+isnt([H|T],E):- not(E= H), isnt(T,E).
+
+rotateAllRows(M,NM):-rotateAllRows(M,[],NM).
+rotateAllRows([],NM,NM).
+rotateAllRows([H|T],R, NM):- rotationOfRows(H,NH), ( (isnt(NH,R), append([NH],[H],A), append(A,R,NR), rotateAllRows(T,NR,NM)) ; rotateAllRows(T,R,NM) ).
+
+rotateAllCols(M,NM):-rotateAllCols(M,[],NM).
+rotateAllCols([],NM,NM).
+rotateAllCols([H|T],R, NM):- rotationOfCols(H,NH), ((isnt(NH,R), append([NH],[H],A), append(A,R,NR), rotateAllCols(T,NR,NM)) ; rotateAllCols(T,R,NM) ).
+
+rotateAllAtCenter(M,NM):-rotateAllAtCenter(M,[],NM).
+rotateAllAtCenter([],NM,NM).
+rotateAllAtCenter([H|T],R, NM):- rotationAtCenter(H,NH), ( (isnt(NH,R), append([NH],[H],A), append(A,R,NR), rotateAllAtCenter(T,NR,NM)) ; rotateAllAtCenter(T,R,NM) ).
+
+reflectAll(M,NM):-reflectAll(M,[],NM).
+reflectAll([],NM,NM).
+reflectAll([H|T],R, NM):- reflexion(H,NH), ( (isnt(NH,R), append([NH],[H],A), append(A,R,NR), reflectAll(T,NR,NM)) ; reflectAll(T,R,NM) ).
+
+globalConvolution(M,NM):-globalConvolution(M,[],NM).
+globalConvolution([],NM,NM).
+globalConvolution([H|T],R, NM):- convolution(H,NHO), convolution(NHO,NHT), append([H],R,NR),
+				((isnt(NHO,R), isnt(NHT,R), append([NHO],[NHT],NHOT), append(NHOT,NR,NNR), globalConvolution(T,NNR,NM));
+				(isnt(NHO,R), append([NHO],NR,NNR), globalConvolution(T,NNR,NM)); 
+				(isnt(NHT,R), append([NHT],NR,NNR), globalConvolution(T,NNR,NM)); 
+				globalConvolution(T,R,NM) ).
+
+createAllBases(M):- createAllBases([],M,0).
+createAllBases(M,M,24).
+createAllBases(R,M,I):- I<24, NI is I+1, createSquare(I,H),  createAllBases([H|R],M,NI).
+
+
 /*Generates a base square using SANC method.
 */
-createSquare(Type,L):- number(Type), generateMatrix("S",S), generateMatrix("A",A), generateMatrix("N",N), generateMatrix("C",C),scalarProd(8,S,NS),
+createSquare(Type,L):- number(Type), generateMatrix("S",S), generateMatrix("A",A), generateMatrix("N",N), generateMatrix("C",C),
 			(
-				(Type = 0, scalarProd(1,A,NA),scalarProd(4,N,NN),scalarProd(2,C,NC));
-				(Type = 1, scalarProd(2,A,NA),scalarProd(4,N,NN),scalarProd(1,C,NC));
-				(Type = 2, scalarProd(4,A,NA),scalarProd(2,N,NN),scalarProd(1,C,NC))
+				(Type = 0, scalarProd(8,S,NS),scalarProd(1,A,NA),scalarProd(4,N,NN),scalarProd(2,C,NC));
+				(Type = 1, scalarProd(8,S,NS),scalarProd(1,A,NA),scalarProd(2,N,NN),scalarProd(4,C,NC));
+				(Type = 2, scalarProd(8,S,NS),scalarProd(2,A,NA),scalarProd(4,N,NN),scalarProd(1,C,NC));
+				(Type = 3, scalarProd(8,S,NS),scalarProd(2,A,NA),scalarProd(1,N,NN),scalarProd(4,C,NC));
+				(Type = 4, scalarProd(8,S,NS),scalarProd(4,A,NA),scalarProd(2,N,NN),scalarProd(1,C,NC));
+                                (Type = 5, scalarProd(8,S,NS),scalarProd(4,A,NA),scalarProd(1,N,NN),scalarProd(2,C,NC));
+				(Type = 6, scalarProd(4,S,NS),scalarProd(1,A,NA),scalarProd(8,N,NN),scalarProd(2,C,NC));
+                                (Type = 7, scalarProd(4,S,NS),scalarProd(1,A,NA),scalarProd(2,N,NN),scalarProd(8,C,NC));
+                                (Type = 8, scalarProd(4,S,NS),scalarProd(2,A,NA),scalarProd(8,N,NN),scalarProd(1,C,NC));
+                                (Type = 9, scalarProd(4,S,NS),scalarProd(2,A,NA),scalarProd(1,N,NN),scalarProd(8,C,NC));
+                                (Type = 10, scalarProd(4,S,NS),scalarProd(8,A,NA),scalarProd(2,N,NN),scalarProd(1,C,NC));
+                                (Type = 11, scalarProd(4,S,NS),scalarProd(8,A,NA),scalarProd(1,N,NN),scalarProd(2,C,NC));
+				(Type = 12, scalarProd(2,S,NS),scalarProd(1,A,NA),scalarProd(4,N,NN),scalarProd(8,C,NC));
+                                (Type = 13, scalarProd(2,S,NS),scalarProd(1,A,NA),scalarProd(8,N,NN),scalarProd(4,C,NC));
+                                (Type = 14, scalarProd(2,S,NS),scalarProd(8,A,NA),scalarProd(4,N,NN),scalarProd(1,C,NC));
+                                (Type = 15, scalarProd(2,S,NS),scalarProd(8,A,NA),scalarProd(1,N,NN),scalarProd(4,C,NC));
+                                (Type = 16, scalarProd(2,S,NS),scalarProd(4,A,NA),scalarProd(8,N,NN),scalarProd(1,C,NC));
+                                (Type = 17, scalarProd(2,S,NS),scalarProd(4,A,NA),scalarProd(1,N,NN),scalarProd(8,C,NC));
+				(Type = 18, scalarProd(1,S,NS),scalarProd(8,A,NA),scalarProd(4,N,NN),scalarProd(2,C,NC));
+                                (Type = 19, scalarProd(1,S,NS),scalarProd(8,A,NA),scalarProd(2,N,NN),scalarProd(4,C,NC));
+                                (Type = 20, scalarProd(1,S,NS),scalarProd(2,A,NA),scalarProd(4,N,NN),scalarProd(8,C,NC));
+                                (Type = 21, scalarProd(1,S,NS),scalarProd(2,A,NA),scalarProd(8,N,NN),scalarProd(4,C,NC));
+                                (Type = 22, scalarProd(1,S,NS),scalarProd(4,A,NA),scalarProd(2,N,NN),scalarProd(8,C,NC));
+                                (Type = 23, scalarProd(1,S,NS),scalarProd(4,A,NA),scalarProd(8,N,NN),scalarProd(2,C,NC))
 			),
 			matrixSum(NS,NA,TmpOne), matrixSum(NN,NC,TmpTwo), matrixSum(TmpOne,TmpTwo,TmpThree), callocMatrix(4,1,I),  matrixSum(TmpThree,I,L).
 
