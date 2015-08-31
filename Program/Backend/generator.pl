@@ -80,14 +80,14 @@ lengthM(M,N):-lengthM(M,0,N).
 lengthM([],N,N).
 lengthM([_|T],N,R):- NN is N+1, lengthM(T,NN,R).
 
-generateAll(H):- createAllBases(A), reflectAll(A,B), rotateAll(B,C), rotateAllRows(C,D), rotateAllCols(D,E), rotateAllAtCenter(E,F), globalConvolution(F,G), lastCheck(G,H).
+generateAll(L):- createAllBases(A), rotateAll(A,B), rotateAllAtCenter(B,C), rotateAllCols(C,D), rotateAllRows(D,E),  globalConvolution(E,F), reflectAll(F,G), zeroWithTwoColsAll(G,H), oneWithThreeColsAll(H,I), zeroWithTwoRowsAll(I,J), oneWithThreeRowsAll(J,K), lastCheck(K,L).
 
 lastCheck(S,M):-lastCheck(S,[],M).
 lastCheck([],M,M):- !.
-lastCheck([H|T],M,NM):- (checkColsNRows(H), txTCornerCheck(H), checkTwoxTwoSquares(H), isnt(M,H),  lastCheck(T,[H|M],NM)) ; lastCheck(T,M,NM).
+lastCheck([H|T],M,NM):- (checkColsNRows(H), txTCornerCheck(H), checkTwoxTwoSquares(H), checkDiagonalSum(H), isnt(M,H), lastCheck(T,[H|M],NM)) ; lastCheck(T,M,NM).
 
 isnt([],_).
-isnt([H|T],E):- not(E= H), isnt(T,E).
+isnt([H|T],E):- not(E=H), isnt(T,E).
 
 getFirsts(M,L,NM):- getFirsts(M,[],L,[],NM).
 getFirsts([],L,L,NM,NM).
@@ -97,46 +97,187 @@ rotation([[]|_],NL,NL).
 rotation(M,R,NM):- getFirsts(M,F,MM), append(R,[F],NR), rotation(MM,NR,NM).
 rotateAll(M,NM):- rotateAll(M,[],NM).
 rotateAll([],NM,NM):-!.
-rotateAll([H|T],R,NM):- rotation(H,A), rotation(A,B), rotation(B,C), append([H],[A],TmpZ), append([B],[C],TmpO), append(TmpZ,TmpO,TmpT), append(R,TmpT,NR), rotateAll(T,NR,NM).
+rotateAll([H|T],R,NM):- rotation(H,A), rotation(A,B), rotation(B,C), append(R,[H],NR),
+			(
+			(isnt(NR,A), isnt(NR,B), isnt(NR,C), append(NR,[A,B,C],NNR));
+			(isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
+			(isnt(NR,A), isnt(NR,C), append(NR,[A,C],NNR));
+			(isnt(NR,B), isnt(NR,C), append(NR,[B,C],NNR));
+			(isnt(NR,A), append(NR,[A],NNR));
+			(isnt(NR,B), append(NR,[B],NNR));
+			(isnt(NR,C), append(NR,[C],NNR));
+			NNR = NR
+			), rotateAll(T,NNR,NM).
 			
+
+zeroWithTwoColsAll(L,NL):-zeroWithTwoColsAll(L,[],NL).
+zeroWithTwoColsAll([],NL,NL).
+zeroWithTwoColsAll([H|T], R, NL):- zeroWithTwoCols(H,NH), ( (isnt(R,NH), append(R,[H,NH],NR)) ; append(R,[H],NR) ), zeroWithTwoColsAll(T, NR, NL).
+
+oneWithThreeColsAll(L,NL):-zeroWithTwoColsAll(L,[],NL).
+oneWithThreeColsAll([],NL,NL).
+oneWithThreeColsAll([H|T], R, NL):- oneWithThreeCols(H,NH), ( (isnt(R,NH), append(R,[H,NH],NR)) ; append(R,[H],NR) ), oneWithThreeColsAll(T, NR, NL).
+
+zeroWithTwoRowsAll(L,NL):-zeroWithTwoRowsAll(L,[],NL).
+zeroWithTwoRowsAll([],NL,NL).
+zeroWithTwoRowsAll([H|T], R, NL):- zeroWithTwoRows(H,NH), ( (isnt(R,NH), append(R,[H,NH],NR)) ; append(R,[H],NR) ), zeroWithTwoRowsAll(T, NR, NL).
+
+oneWithThreeRowsAll(L,NL):-oneWithThreeRowsAll(L,[],NL).
+oneWithThreeRowsAll([],NL,NL).
+oneWithThreeRowsAll([H|T], R, NL):- oneWithThreeRows(H,NH), ( (isnt(R,NH), append(R,[H,NH],NR)) ; append(R,[H],NR) ), oneWithThreeRowsAll(T, NR, NL).
 
 
 rotateAllRows(M,NM):-rotateAllRows(M,[],NM).
 rotateAllRows([],NM,NM).
-rotateAllRows([H|T],R,NM):- rotationOfRows(H,NH),rotationOfCols(NH,NNH),rotationOfCols(NNH,NNNH), append([NH],[H],A), append([NNH],[NNNH],B), append(A,B,Tmp), append(R,Tmp,NR), rotateAllRows(T,NR,NM).
+rotateAllRows([H|T],R,NM):- rotationOfRows(H,A),rotationOfCols(A,B),rotationOfCols(B,C), append(R,[H],NR),
+			    (
+                            (isnt(NR,A), isnt(NR,B), isnt(NR,C), append(NR,[A,B,C],NNR));
+                            (isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
+                            (isnt(NR,A), isnt(NR,C), append(NR,[A,C],NNR));
+                            (isnt(NR,B), isnt(NR,C), append(NR,[B,C],NNR));
+                            (isnt(NR,A), append(NR,[A],NNR));
+                            (isnt(NR,B), append(NR,[B],NNR));
+                            (isnt(NR,C), append(NR,[C],NNR));
+                            NNR = NR 
+                            ),rotateAllRows(T,NNR,NM).
 
 rotateAllCols(M,NM):-rotateAllCols(M,[],NM).
 rotateAllCols([],NM,NM).
-rotateAllCols([H|T],R,NM):- rotationOfCols(H,NH),rotationOfCols(NH,NNH),rotationOfCols(NNH,NNNH), append([H],[NH],A),  append([NNH],[NNNH],B), append(A,B,Tmp), append(Tmp,R,NR),rotateAllCols(T,NR,NM).
+rotateAllCols([H|T],R,NM):- rotationOfCols(H,A),rotationOfCols(A,B),rotationOfCols(B,C), append(R,[H],NR), 
+			    (
+                            (isnt(NR,A), isnt(NR,B), isnt(NR,C), append(NR,[A,B,C],NNR));
+                            (isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
+                            (isnt(NR,A), isnt(NR,C), append(NR,[A,C],NNR));
+                            (isnt(NR,B), isnt(NR,C), append(NR,[B,C],NNR));
+                            (isnt(NR,A), append(NR,[A],NNR));
+                            (isnt(NR,B), append(NR,[B],NNR));
+                            (isnt(NR,C), append(NR,[C],NNR));
+                            NNR = NR 
+                            ),rotateAllCols(T,NR,NM).
 
 rotateAllAtCenter(M,NM):-rotateAllAtCenter(M,[],NM).
 rotateAllAtCenter([],NM,NM).
-rotateAllAtCenter([H|T],R, NM):- rotationAtCenter(H,NH), ( (isnt(R,NH), append([NH],[H],A), append(A,R,NR), rotateAllAtCenter(T,NR,NM)) ; (append([H],R,NR) , rotateAllAtCenter(T,NR,NM)) ).
+rotateAllAtCenter([H|T],R, NM):- rotationAtCenter(H,A), append([H],R,NR),
+				( 
+				(isnt(NR,[A]), append(NR,[A],NNR)); 
+				NNR = NR
+				), rotateAllAtCenter(T,NNR,NM).
 
 reflectAll(M,NM):-reflectAll(M,[],NM).
 reflectAll([],NM,NM).
-reflectAll([H|T],R, NM):- reflexion(H,NH), ( (isnt(R,NH), append([NH],[H],A), append(A,R,NR), reflectAll(T,NR,NM)) ; (append([H],R,NR),reflectAll(T,NR,NM)) ).
+reflectAll([H|T],R, NM):- reflexion(H,A), append(R,[H],NR),
+			 ( 
+			 (isnt(R,A), append(NR,[A],NNR));
+			 NNR = NR
+			 ), reflectAll(T,NNR,NM).
 
 globalConvolution(M,NM):-globalConvolution(M,[],NM).
 globalConvolution([],NM,NM).
-globalConvolution([H|T],R, NM):- convolution(H,NHO), convolution(NHO,NHT), append([H],R,NR),
-				((isnt(R,NHO), isnt(R,NHT), append([NHO],[NHT],NHOT), append(NHOT,NR,NNR), globalConvolution(T,NNR,NM));
-				(isnt(R,NHO), append([NHO],NR,NNR), globalConvolution(T,NNR,NM)); 
-				(isnt(R,NHT), append([NHT],NR,NNR), globalConvolution(T,NNR,NM)); 
-				globalConvolution(T,NR,NM) ).
+globalConvolution([H|T],R, NM):- convolution(H,A), convolution(A,B), append(R,[H],NR), 
+				 (
+                            	(isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
+                            	(isnt(NR,A), append(NR,[A],NNR));
+                            	(isnt(NR,B), append(NR,[B],NNR));
+                            	NNR = NR
+                            	),globalConvolution(T,NNR,NM).
 
 createAllBases(M):- createAllBases([],M,0).
-createAllBases(M,M,3).
-createAllBases(R,M,I):- I<3, NI is I+1, createSquare(I,H), createAllBases([H|R],M,NI).
+createAllBases(M,M,24).
+createAllBases(R,M,I):- I<24, NI is I+1, createSquare(I,H), createAllBases([H|R],M,NI).
 
 
 /*Generates a base square using SANC method.
 */
 createSquare(Type,L):- number(Type), generateMatrix("S",S), generateMatrix("A",A), generateMatrix("N",N), generateMatrix("C",C),
 			(
-				(Type = 0, scalarProd(8,S,NS),scalarProd(1,A,NA),scalarProd(4,N,NN),scalarProd(2,C,NC));
-				(Type = 1, scalarProd(8,S,NS),scalarProd(2,A,NA),scalarProd(4,N,NN),scalarProd(1,C,NC));
-				(Type = 2, scalarProd(8,S,NS),scalarProd(4,A,NA),scalarProd(2,N,NN),scalarProd(1,C,NC))
+				(Type<6, scalarProd(8,S,NS),
+					(
+						(Type<2, scalarProd(1,A,NA),
+							(
+								(Type = 0,scalarProd(4,N,NN),scalarProd(2,C,NC));
+								(scalarProd(2,N,NN), scalarProd(4,C,NC))
+							)
+						);
+						(Type<4, scalarProd(2,A,NA),
+							(
+								(Type = 2, scalarProd(4,N,NN),scalarProd(1,C,NC));
+                						(scalarProd(1,N,NN),scalarProd(4,C,NC))
+							)
+						);
+						(scalarProd(4,A,NA),
+							(
+								(Type = 4, scalarProd(2,N,NN),scalarProd(1,C,NC));
+         		        				(scalarProd(1,N,NN),scalarProd(2,C,NC))
+							)
+						)
+					)
+				);
+				(Type<12, scalarProd(4,S,NS),
+					(
+						(Type<8, scalarProd(1,A,NA),
+							(
+								(Type = 6 ,scalarProd(8,N,NN),scalarProd(2,C,NC));
+                						(scalarProd(1,A,NA),scalarProd(2,N,NN),scalarProd(8,C,NC))
+							)
+						);
+						(Type<10, scalarProd(2,A,NA),
+							(
+                						(Type = 8, scalarProd(8,N,NN),scalarProd(1,C,NC));
+                						(scalarProd(1,N,NN),scalarProd(8,C,NC))
+							)
+						);
+						(scalarProd(8,A,NA),
+							(
+                						(Type = 10,scalarProd(2,N,NN),scalarProd(1,C,NC));
+                						(scalarProd(1,N,NN),scalarProd(2,C,NC))
+							)
+						)
+					)
+				);
+				(Type<18, scalarProd(2,S,NS),
+					(
+						(Type<14, scalarProd(1,A,NA),
+							(
+								(Type = 12, scalarProd(4,N,NN),scalarProd(8,C,NC));
+                						(scalarProd(8,N,NN),scalarProd(4,C,NC))
+               		 				)
+						);
+						(Type<16, scalarProd(8,A,NA),
+							(
+								(Type = 14,scalarProd(4,N,NN),scalarProd(1,C,NC));
+	                					(scalarProd(1,N,NN),scalarProd(4,C,NC))
+							)
+        	        			);
+						(scalarProd(4,A,NA),
+							(
+								(Type = 16, scalarProd(8,N,NN),scalarProd(1,C,NC));
+                						(scalarProd(1,N,NN),scalarProd(8,C,NC))
+							)
+						)
+					)
+				);	
+				(scalarProd(1,S,NS),
+					(
+						(Type<20, scalarProd(8,A,NA),
+							(
+								(scalarProd(4,N,NN),scalarProd(2,C,NC));
+                						(scalarProd(2,N,NN),scalarProd(4,C,NC))
+							)
+						);
+						(Type<22, scalarProd(2,N,NN),
+							(
+                						(Type = 20, scalarProd(4,N,NN),scalarProd(8,C,NC));
+                						(scalarProd(8,N,NN),scalarProd(4,C,NC))
+							)
+						);
+						(scalarProd(4,A,NA),
+							(
+                						(Type = 22,scalarProd(2,N,NN),scalarProd(8,C,NC));
+          			     				(scalarProd(8,N,NN),scalarProd(2,C,NC))
+							)
+						)
+					)
+				)
 			),
 			matrixSum(NS,NA,TmpOne), matrixSum(NN,NC,TmpTwo), matrixSum(TmpOne,TmpTwo,TmpThree), callocMatrix(4,1,I),  matrixSum(TmpThree,I,L).
 
@@ -293,6 +434,13 @@ getLast(L,E):- getLast(L,[],E).
 getLast([],E,E).
 getLast([H|T],_,E):-getLast(T,H,E).
 
+/*Gets the last element of a list
+*/
+getLastOut(L,E,NL):- getLastOut(L,[],E,[],NL).
+getLastOut([],E,E,NL,NL).
+getLastOut([H|T],_,E,R,NL):- not(T = []), append(R,[H],NR), getLastOut(T,[],E,NR,NL).
+getLastOut([H|T],_,E,R,NL):- T = [], getLastOut([],H,E,R,NL).
+
 /*Realize the swap of the rotation at center point
 */
 pseudoSwap(A,B,NA,NB):- pseudoSwap(A,B,_,[],NA,[],NB,0). 
@@ -322,3 +470,31 @@ convolution([H|T],NS):- firstOut(T,HH,NT), firstOut(NT,HHH,NNT), firstOut(NNT,HH
 			convolutionAux(H,HH,NH,NHH),convolutionAux(HHH,HHHH,NHHH,NHHHH), 
 			reverseList(NHHH,NHHHR), reverseList(NHHHH,NHHHHR), 
 			append([NH],[NHH],TmpOne), append([NHHHHR],[NHHHR],TmpTwo), append(TmpOne, TmpTwo, NS).
+
+
+/*** PRED ***/
+
+
+oneWithThree([H|T],NL):- reverseList(T,NT), append([H],NT,NL).
+zeroWithTwo(L,NL):- getLastOut(L,E,TL), reverseList(TL, NTL), append(NTL,[E],NL).  
+
+oneWithThreeRows(L,NL):-oneWithThree(L,NL).
+oneWithThreeCols(L,NL):-oneWithThreeCols(L,[],NL).
+oneWithThreeCols([],NL,NL).
+oneWithThreeCols([H|T],R,NL):-oneWithThree(H,NH), append(R,[H],NR), oneWithThreeCols(T,NR,NL).
+
+zeroWithTwoRows(L,NL):-zeroWithTwo(L,NL).
+zeroWithTwoCols(L,NL):-zeroWithTwoCols(L,[],NL).
+zeroWithTwoCols([],NL,NL).
+zeroWithTwoCols([H|T],R,NL):-zeroWithTwo(H,NH), append(R,[H],NR), zeroWithTwoCols(T,NR,NL).
+
+
+/*** PRED ***/
+
+get(I, [H|T], R):- I=0, R=H.
+get(I, [H|T], R):- I>0, NI is I-1, get(NI,T,R). 
+diagonalSum(L,R):-diagonalSum(0,L,0,R).
+diagonalSum(_,[],R,R).
+diagonalSum(I,[H|T],TR,R):- get(I,H,HsI), NTR is TR+HsI, NI is I+1, diagonalSum(NI,T,NTR,R).
+
+checkDiagonalSum(L):-diagonalSum(L,34).
