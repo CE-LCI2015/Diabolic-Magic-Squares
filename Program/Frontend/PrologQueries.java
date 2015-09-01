@@ -13,4 +13,11 @@ public class PrologQueries {
         System.out.println("Diabolic matrix?: "+q.hasSolution());
         return q.hasSolution();
     }
+    static public int[][][] showall()
+    {
+        Variable M = new Variable();
+        Query q = new Query("", new Term[]{M});
+        return null;
+    }
 }
+

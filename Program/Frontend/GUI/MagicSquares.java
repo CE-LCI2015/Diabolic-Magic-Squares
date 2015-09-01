@@ -51,6 +51,11 @@ public class MagicSquares  {
                 checkMatrix();
             }
         });
+        showAllButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
     }
 
     private void msgbox(String s){

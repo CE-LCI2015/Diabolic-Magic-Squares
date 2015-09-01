@@ -27,15 +27,17 @@ public class Main {
 
         //int[][] test = {{1,8,13,12},{14,11,2,7},{4,5,16,9},{15,10,3,6}};
         //PrologQueries.checkDiabolic(test);
-        int[][][] list = {
-                {{1,2,3,4},{4,3,2,1},{1,2,3,4},{4,3,2,1}},
-                {{1,2,3,5},{5,3,2,1},{1,2,3,5},{5,3,2,1}},
-                {{2,2,3,5},{2,3,2,1},{2,2,3,5},{2,3,2,1}}
-        };
+        //int length =384;
+        //int [][][] list = new int[length][4][4];
+        //int[][] listt ={{0,1,2,3},{1,2,3,4},{2,3,4,5},{3,4,5,6}};
+        //for (int i = 0; i < length; i++) {
+        //    list[i] = listt;
+        //}
 
-        ShowMatrix.main(list);
 
-        //MagicSquares.main();
+        //ShowMatrix.main(list);
+
+        MagicSquares.main();
 
 
 
