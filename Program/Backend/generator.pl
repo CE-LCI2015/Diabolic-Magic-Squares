@@ -481,18 +481,18 @@ zeroWithTwo(L,NL):- getLastOut(L,E,TL), reverseList(TL, NTL), append(NTL,[E],NL)
 oneWithThreeRows(L,NL):-oneWithThree(L,NL).
 oneWithThreeCols(L,NL):-oneWithThreeCols(L,[],NL).
 oneWithThreeCols([],NL,NL).
-oneWithThreeCols([H|T],R,NL):-oneWithThree(H,NH), append(R,[H],NR), oneWithThreeCols(T,NR,NL).
+oneWithThreeCols([H|T],R,NL):-oneWithThree(H,_), append(R,[H],NR), oneWithThreeCols(T,NR,NL).
 
 zeroWithTwoRows(L,NL):-zeroWithTwo(L,NL).
 zeroWithTwoCols(L,NL):-zeroWithTwoCols(L,[],NL).
 zeroWithTwoCols([],NL,NL).
-zeroWithTwoCols([H|T],R,NL):-zeroWithTwo(H,NH), append(R,[H],NR), zeroWithTwoCols(T,NR,NL).
+zeroWithTwoCols([H|T],R,NL):-zeroWithTwo(H,_), append(R,[H],NR), zeroWithTwoCols(T,NR,NL).
 
 
 /*** PRED ***/
 
-get(I, [H|T], R):- I=0, R=H.
-get(I, [H|T], R):- I>0, NI is I-1, get(NI,T,R). 
+get(I, [H|_], R):- I=0, R=H.
+get(I, [_|T], R):- I>0, NI is I-1, get(NI,T,R).
 diagonalSum(L,R):-diagonalSum(0,L,0,R).
 diagonalSum(_,[],R,R).
 diagonalSum(I,[H|T],TR,R):- get(I,H,HsI), NTR is TR+HsI, NI is I+1, diagonalSum(NI,T,NTR,R).

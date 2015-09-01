@@ -2,6 +2,9 @@ package Frontend;
 
 import org.jpl7.*;
 
+import java.util.HashMap;
+
+
 /**
  * Created by pablo on 28/08/15.
  */
@@ -15,9 +18,23 @@ public class PrologQueries {
     }
     static public int[][][] showall()
     {
-        Variable M = new Variable();
-        Query q = new Query("", new Term[]{M});
-        return null;
+
+        Variable X = new Variable();
+        Query q = new Query("generateAll(X)");
+        Term[] listSols =q.oneSolution().get("X").toTermArray();
+        int[][][] result = new int[listSols.length]
+                [listSols[0].toTermArray().length]
+                [listSols[0].toTermArray()[0].toTermArray().length];
+        for (int k = 0; k < listSols.length; k++) {
+            Term[] rows = listSols[k].toTermArray();
+            for (int j = 0; j < rows.length; j++) {
+                Term[] eles = rows[j].toTermArray();
+                for (int i = 0; i < eles.length; i++) {
+                    result[k][j][i] =eles[i].intValue();
+                }
+            }
+        }
+        return result;
     }
 }
 

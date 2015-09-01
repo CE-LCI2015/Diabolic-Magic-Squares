@@ -27,6 +27,7 @@ public class Main {
 
         //int[][] test = {{1,8,13,12},{14,11,2,7},{4,5,16,9},{15,10,3,6}};
         //PrologQueries.checkDiabolic(test);
+
         //int length =384;
         //int [][][] list = new int[length][4][4];
         //int[][] listt ={{0,1,2,3},{1,2,3,4},{2,3,4,5},{3,4,5,6}};
@@ -35,7 +36,7 @@ public class Main {
         //}
 
 
-        //ShowMatrix.main(list);
+        ShowMatrix.main(PrologQueries.showall());
 
         MagicSquares.main();
 
