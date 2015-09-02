@@ -1,3 +1,21 @@
+
+/*Generates  matrix of four from a list */
+toMatrix(L,R):- toMatrixAux(L,4,R).
+/*Generates  matrix of NxN from a list */
+toMatrixAux([],_,[]).
+toMatrixAux(L,N,[G|H]):-
+	firstNlist(L,N,G,R),
+	toMatrixAux(R,N,H).
+/*Generates  list of the first N elements of a List and also returns the R: rest of the list 
+firstNlist(List,Number of first elements, result, rest of the list).
+*/
+firstNlist(L,0,[],L).
+firstNlist([F|L],N,[G|H],R):-
+	F=G ,
+	N1 is N - 1,
+	firstNlist(L,N1,H,R).
+
+
 /*** PRED ***/
 
 
