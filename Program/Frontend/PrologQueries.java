@@ -12,15 +12,33 @@ public class PrologQueries {
     static public boolean checkDiabolic(int[][] matrix)
     {
         Term t = Util.intArrayArrayToList(matrix);
-        Query q = new Query("diabolic", t);
+        Query q = new Query("diabolicMatrix", t);
         System.out.println("Diabolic matrix?: "+q.hasSolution());
         return q.hasSolution();
     }
     static public int[][][] showall()
     {
 
-        Variable X = new Variable();
         Query q = new Query("generateAll(X)");
+        Term[] listSols =q.oneSolution().get("X").toTermArray();
+        int[][][] result = new int[listSols.length]
+                [listSols[0].toTermArray().length]
+                [listSols[0].toTermArray()[0].toTermArray().length];
+        for (int k = 0; k < listSols.length; k++) {
+            Term[] rows = listSols[k].toTermArray();
+            for (int j = 0; j < rows.length; j++) {
+                Term[] eles = rows[j].toTermArray();
+                for (int i = 0; i < eles.length; i++) {
+                    result[k][j][i] =eles[i].intValue();
+                }
+            }
+        }
+        return result;
+    }
+    static public int[][][]generate(int n)
+    {
+
+        Query q = new Query("generateMagicSquares("+n+", X)");
         Term[] listSols =q.oneSolution().get("X").toTermArray();
         int[][][] result = new int[listSols.length]
                 [listSols[0].toTermArray().length]

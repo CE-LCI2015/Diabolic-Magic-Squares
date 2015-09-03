@@ -50,7 +50,13 @@ The SANC method consists on building four different matrixes: S, A, N and C. Eac
 
 Duration      | Activity      | Description
 ------------- | ------------- | -------------
-              |               | 
+1h | Meeting | Discussing th project with Roberto
+5h | Research | Learning the basics of Prolog
+3h | Research | Learning about the Diabolic Magic Squares
+3h | Coding | Programming some basic validation of magic squares
+3h | Research | Configuring swi-prolog with java
+5h | Coding | Programing the GUI of java swing
+
 
 
 # Conclusions

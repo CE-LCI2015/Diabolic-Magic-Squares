@@ -53,7 +53,22 @@ public class MagicSquares  {
         });
         showAllButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-
+                ShowMatrix.main(PrologQueries.showall());
+            }
+        });
+        generateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    String resultInString = JOptionPane.showInputDialog("How many squares to be generated?");
+                    int result = Integer.parseInt(resultInString);
+                    if (result<1||result>10) msgbox("You didn't give a number in range");
+                    else
+                    {
+                        ShowMatrix.main(PrologQueries.generate(result));
+                    }
+                } catch (NumberFormatException e) {
+                   msgbox("You didn't give a number");
+                }
             }
         });
     }

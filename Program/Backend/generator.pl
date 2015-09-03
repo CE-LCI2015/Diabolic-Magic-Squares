@@ -72,8 +72,7 @@ even(N):- 0 is N mod 2.
 /*** PRED ***/
 
 
-/*Multiply a matrix by a scalar.
-*/
+/*Multiply a matrix by a scalar.*/
 scalarProd(N,M,L):-scalarProd(N,M,[],L).
 scalarProd(_,[],L,L).
 scalarProd(N,[H|T],NL,L):- number(H), B is N*H, append(NL,[B],Tmp), scalarProd(N,T,Tmp,L).
@@ -83,8 +82,7 @@ scalarProd(N,[H|T],NL,L):- is_list(H), scalarProd(N,H,[],R), append(NL,[R],Tmp),
 /*** PRED ***/
 
 
-/*Adds the elements of two matrix.
-*/
+/*Adds the elements of two matrix.*/
 matrixSum(A,B,L):-matrixSum(A,B,[],L).
 matrixSum([],[],L,L).
 matrixSum([AH|AT],[BH|BT],R,L):-number(AH), number(BH), RT is AH+BH, append(R,[RT],Tmp), matrixSum(AT,BT,Tmp,L).
@@ -516,3 +514,16 @@ diagonalSum(_,[],R,R).
 diagonalSum(I,[H|T],TR,R):- get(I,H,HsI), NTR is TR+HsI, NI is I+1, diagonalSum(NI,T,NTR,R).
 
 checkDiagonalSum(L):-diagonalSum(L,34).
+/* Checks a diabolic magic square*/
+diabolic(M) :- toMatrix(M,N) , diabolicMatrix(N).
+diabolicMatrix(M) :- checkColsNRows(M), txTCornerCheck(M), checkTwoxTwoSquares(M), checkDiagonalSum(M).
+
+/*R is the result of the generation*/
+
+generateMagicSquares(N,M):-generateMagicSquares(N,[],M).
+generateMagicSquares(0, M, M).
+generateMagicSquares(N, R, M) :- N > 0 , N1 is N - 1, random(0 , 23, Num), createSquare(Num,F),
+                                 (
+                                    (isnt(R,F), append(R,[F],NR), generateMagicSquares(N1,NR,M));
+                                    generateMagicSquares(N,R,M)
+                                 ).

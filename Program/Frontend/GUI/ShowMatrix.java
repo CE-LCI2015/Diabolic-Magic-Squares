@@ -23,7 +23,7 @@ public class ShowMatrix {
     public static void main(int[][][] matrixList) {
         frame = new JFrame("ShowMatrix");
         frame.setContentPane(new ShowMatrix(matrixList).main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
@@ -36,7 +36,7 @@ public class ShowMatrix {
 
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                frame.getDefaultCloseOperation();
+                frame.dispose();
             }
         });
     }
