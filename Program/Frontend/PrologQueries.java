@@ -21,6 +21,11 @@ public class PrologQueries {
 
         Query q = new Query("generateAll(X)");
         Term[] listSols =q.oneSolution().get("X").toTermArray();
+        int[][][] result = getMatrix(listSols);
+        return result;
+    }
+
+    private static int[][][] getMatrix(Term[] listSols) {
         int[][][] result = new int[listSols.length]
                 [listSols[0].toTermArray().length]
                 [listSols[0].toTermArray()[0].toTermArray().length];
@@ -35,23 +40,13 @@ public class PrologQueries {
         }
         return result;
     }
+
     static public int[][][]generate(int n)
     {
 
         Query q = new Query("generateMagicSquares("+n+", X)");
         Term[] listSols =q.oneSolution().get("X").toTermArray();
-        int[][][] result = new int[listSols.length]
-                [listSols[0].toTermArray().length]
-                [listSols[0].toTermArray()[0].toTermArray().length];
-        for (int k = 0; k < listSols.length; k++) {
-            Term[] rows = listSols[k].toTermArray();
-            for (int j = 0; j < rows.length; j++) {
-                Term[] eles = rows[j].toTermArray();
-                for (int i = 0; i < eles.length; i++) {
-                    result[k][j][i] =eles[i].intValue();
-                }
-            }
-        }
+        int[][][] result = getMatrix(listSols);
         return result;
     }
 }
