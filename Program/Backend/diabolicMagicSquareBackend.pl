@@ -96,6 +96,8 @@ lengthM(M,N):-lengthM(M,0,N).
 lengthM([],N,N).
 lengthM([_|T],N,R):- NN is N+1, lengthM(T,NN,R).
 
+showAll(L):-generateAll(L).
+
 generateAll(L):- createAllBases(A), rotateAll(A,B), rotateAllAtCenter(B,C), rotateAllCols(C,D), rotateAllRows(D,E),  globalConvolution(E,F), reflectAll(F,G), zeroWithTwoColsAll(G,H), oneWithThreeColsAll(H,I), zeroWithTwoRowsAll(I,J), oneWithThreeRowsAll(J,K), lastCheck(K,L).
 
 lastCheck(S,M):-lastCheck(S,[],M).
@@ -113,17 +115,7 @@ rotation([[]|_],NL,NL).
 rotation(M,R,NM):- getFirsts(M,F,MM), append(R,[F],NR), rotation(MM,NR,NM).
 rotateAll(M,NM):- rotateAll(M,[],NM).
 rotateAll([],NM,NM):-!.
-rotateAll([H|T],R,NM):- rotation(H,A), rotation(A,B), rotation(B,C), append(R,[H],NR),
-			(
-			(isnt(NR,A), isnt(NR,B), isnt(NR,C), append(NR,[A,B,C],NNR));
-			(isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
-			(isnt(NR,A), isnt(NR,C), append(NR,[A,C],NNR));
-			(isnt(NR,B), isnt(NR,C), append(NR,[B,C],NNR));
-			(isnt(NR,A), append(NR,[A],NNR));
-			(isnt(NR,B), append(NR,[B],NNR));
-			(isnt(NR,C), append(NR,[C],NNR));
-			NNR = NR
-			), rotateAll(T,NNR,NM).
+rotateAll([H|T],R,NM):- rotation(H,A), rotation(A,B), rotation(B,C), append(R,[H,A,B,C],NR), rotateAll(T,NR,NM).
 			
 
 zeroWithTwoColsAll(L,NL):-zeroWithTwoColsAll(L,[],NL).
@@ -154,42 +146,24 @@ rotateAllRows([H|T],R,NM):- rotationOfRows(H,A),rotationOfCols(A,B),rotationOfCo
                             (isnt(NR,A), append(NR,[A],NNR));
                             (isnt(NR,B), append(NR,[B],NNR));
                             (isnt(NR,C), append(NR,[C],NNR));
-                            NNR = NR 
+                            NNR = NR
                             ),rotateAllRows(T,NNR,NM).
 
 rotateAllCols(M,NM):-rotateAllCols(M,[],NM).
 rotateAllCols([],NM,NM).
-rotateAllCols([H|T],R,NM):- rotationOfCols(H,A),rotationOfCols(A,B),rotationOfCols(B,C), append(R,[H],NR), 
-			    (
-                            (isnt(NR,A), isnt(NR,B), isnt(NR,C), append(NR,[A,B,C],NNR));
-                            (isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
-                            (isnt(NR,A), isnt(NR,C), append(NR,[A,C],NNR));
-                            (isnt(NR,B), isnt(NR,C), append(NR,[B,C],NNR));
-                            (isnt(NR,A), append(NR,[A],NNR));
-                            (isnt(NR,B), append(NR,[B],NNR));
-                            (isnt(NR,C), append(NR,[C],NNR));
-                            NNR = NR 
-                            ),rotateAllCols(T,NR,NM).
+rotateAllCols([H|T],R,NM):- rotationOfCols(H,A),rotationOfCols(A,B),rotationOfCols(B,C), append(R,[H, A, B, C],NR),rotateAllCols(T,NR,NM).
 
-rotateAllAtCenter(M,NM):-rotateAllAtCenter(M,[],NM).
+rotateAllAtCenter(M,NM):- rotateAllAtCenter(M,[],NM).
 rotateAllAtCenter([],NM,NM).
-rotateAllAtCenter([H|T],R, NM):- rotationAtCenter(H,A), append([H],R,NR),
-				( 
-				(isnt(NR,[A]), append(NR,[A],NNR)); 
-				NNR = NR
-				), rotateAllAtCenter(T,NNR,NM).
+rotateAllAtCenter([H|T],R, NM):- rotationAtCenter(H,A), append([H,A],R,NR), rotateAllAtCenter(T,NR,NM).
 
 reflectAll(M,NM):-reflectAll(M,[],NM).
 reflectAll([],NM,NM).
-reflectAll([H|T],R, NM):- reflexion(H,A), append(R,[H],NR),
-			 ( 
-			 (isnt(R,A), append(NR,[A],NNR));
-			 NNR = NR
-			 ), reflectAll(T,NNR,NM).
+reflectAll([H|T],R, NM):- reflexion(H,A), append(R,[H,A],NR),reflectAll(T,NR,NM).
 
 globalConvolution(M,NM):-globalConvolution(M,[],NM).
 globalConvolution([],NM,NM).
-globalConvolution([H|T],R, NM):- convolution(H,A), convolution(A,B), append(R,[H],NR), 
+globalConvolution([H|T],R, NM):- convolution(H,A), convolution(A,B), append(R,[H],NR),
 				 (
                             	(isnt(NR,A), isnt(NR,B), append(NR,[A,B],NNR));
                             	(isnt(NR,A), append(NR,[A],NNR));

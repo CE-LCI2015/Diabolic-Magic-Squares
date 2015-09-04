@@ -115,7 +115,6 @@ From these three basic squares all of the other possible squares can be made.
 
 Time sum: 18 h.
 
-
 **Pablo Rodriguez**
 
 Duration      | Activity      | Description
