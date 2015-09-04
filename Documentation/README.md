@@ -69,7 +69,18 @@ Swi-Prolog
 # Program Design
 
 The Diabolic Magic Squares Generator generates three different squares using the SANC method.
-The SANC method consists on building four different matrixes: S, A, N and C. Each of those matrixes are multiplied by a integer (1, 2, 4 or 8) in a specific order and their sum generates a Diabolic Magic Square. 
+The SANC method consists on building four different matrixes: S, A, N and C. Each of those matrixes are multiplied by a integer (1, 2, 4 or 8) in a specific order and their sum generates a Diabolic Magic Square. This method produces 24 squares that are variations of the 3 main squares. To get a specific number of squares, N of those 24 squares are selected, where N has a value between one and ten.
+There are seven allowed permutations:
+
+* Reflection: reverse all the elements of the rows.
+* Rotation about the center point: the middle elements of the extern rows, becomes the extern elements of the middle rows
+* Rotation of columns: the first column becomes the last.
+* Rotation of columns: the first column becomes the last.
+* Convolution: a row becomes a 2x2 squares. The top rows are mixed, also the bottom rows.
+* Inserted columns swap: the first column becomes the third and the second becomes the last.
+* Inserted rows swap: the first row becomes the third and the second becomes the last.
+
+Using those permutatios and storing the results is possible to generate the 384 squares, that is the easiest way we found.
 
 
 # Student's Activity Log
