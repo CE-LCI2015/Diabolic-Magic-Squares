@@ -84,7 +84,7 @@ public class ShowMatrix {
         matrixScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         matrixScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         counterPanel = new JPanel();
-        counterLabel = new JLabel("Hola");
+        counterLabel = new JLabel("0");
         counterPanel.add(counterLabel);
         createLabels();
     }

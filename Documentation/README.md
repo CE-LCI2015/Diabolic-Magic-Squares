@@ -148,6 +148,8 @@ all the messages indicating what the error is and when it applies the specific l
 # Conclusions
 
 Prolog is a good lenguage for logical designs. It provides the a lot of tools to solve inferences that helps on decisions and mathematical algorithms.
+With logic programming we can code with backtracking simulating the human brain used in artificial intelligence.
+The uses of backtracking are limitless as we kniow, we can generate 384 matrices from premisas.
 
 # Suggestions and recommendations
 * Use a GUI Designer to improve the time of creation.
