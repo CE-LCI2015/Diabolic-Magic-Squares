@@ -1,6 +1,8 @@
 package Frontend;
 
-import org.jpl7.*;
+import org.jpl7.Query;
+import org.jpl7.Term;
+import org.jpl7.Util;
 
 import java.util.HashMap;
 
