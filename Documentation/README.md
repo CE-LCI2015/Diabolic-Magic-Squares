@@ -50,19 +50,38 @@ This interface, friendly user, provides diferrent screens and options for verifi
 * For verifying a matrix as a diabolic magic square the user inputs the matrix by entering each of the sixteen numbers one by one and clicking on verify.
 A popup message will display in case of error, explainig what and where the error is.
 
+![Verify Example](http://s9.postimg.org/zb4bqzidr/verify.png)
+
+
+ **Example of verify**
+
+
 *For generating a certain amount of matrices the user just press the button generate,this will give the user the chance to input a number from a range of 1 to 10,
 The program provides a screen which allows the user to see all the matrices he requested.
 In this screen as well, a message will pop up in case of error, explainig what and where the error is.
 
+![Generate Example](http://s3.postimg.org/42xxee2k3/Screenshot_from_2015_09_03_21_59_33.png)
+
+
+ **Example of generate**
+
 * For showing all the possible 384 matrices the user has the option named "showall" which displays a screen with all the matrices arranged in an nice and orderly way.
+
+![Showall Example](http://s16.postimg.org/6dreybhcl/showall.png)
+
+
+ **Example of show all**
+
 
 Finally, the GUI provides the exit button to finalize the interaction whenever the user wants it.
 
 
+
+
  
 # Development Environment
-Intellij
-Swi-Prolog
+Intellij : an IDE for java development and GUI Development.
+Swi-Prolog : a development kit for working with prolog.
 
 
 
@@ -71,6 +90,15 @@ Swi-Prolog
 The Diabolic Magic Squares Generator generates three different squares using the SANC method.
 The SANC method consists on building four different matrixes: S, A, N and C. Each of those matrixes are multiplied by a integer (1, 2, 4 or 8) in a specific order and their sum generates a Diabolic Magic Square. 
 
+
+From these three basic squares all of the other possible squares can be made.
+ There are sixteen cells in each square so, just by translocation,
+ there are sixteen variations of each square. Each of these translocations can be rotated into four different positions,
+  and each rotation can be reflected. Therefore, 3 x 16 x 8 = 384 regular, order four, pan-magic squares can be derived
+  from these three basic squares.
+
+  The project FrontEnd was designed in Java because the integration of swi-prolog through the library JPL.
+  the GUI design is easier
 
 # Student's Activity Log
 
@@ -93,11 +121,11 @@ Time sum: 18 h.
 Duration      | Activity      | Description
 ------------- | ------------- | -------------
 1h | Meeting  | Discussing th project with Roberto
-5h | Research | Learning the basics of Prolog
+4h | Research | Learning the basics of Prolog
 3h | Research | Learning about the Diabolic Magic Squares
 3h | Coding   | Programming some basic validation of magic squares
 3h | Research | Configuring swi-prolog with java
-5h | Coding   | Programing the GUI of java swing
+3h | Coding   | Programing the GUI of java swing
 
 # Project Final Status
 The program meets all the requirements specified. It verifies if a diabolic magic square entered by the user is really one or not.
@@ -114,3 +142,9 @@ all the messages indicating what the error is and when it applies the specific l
 
 * http://mathworld.wolfram.com/PanmagicSquare.html
 * https://en.wikipedia.org/wiki/Pandiagonal_magic_square
+* http://www.grogono.com/magic/4x4.php
+* http://www.dipmat.unict.it/~barba/PROG-LANG/PROGRAMMI-TESTI/READING-MATERIAL/BasicsOfProlog
+* http://www.swi-prolog.org/packages/jpl/java_api/low-level_interface.html
+* http://docs.oracle.com/javase/tutorial/uiswing/
+* http://kti.ms.mff.cuni.cz/~bartak/prolog.old/learning.html
+* http://www.cs.toronto.edu/~dianaz/2501/prologBasics.html
