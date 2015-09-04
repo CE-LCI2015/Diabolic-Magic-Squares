@@ -149,14 +149,20 @@ all the messages indicating what the error is and when it applies the specific l
 Prolog is a good lenguage for logical designs. It provides the a lot of tools to solve inferences that helps on decisions and mathematical algorithms.
 
 # Suggestions and recommendations
+* Use a GUI Designer to improve the time of creation.
+* In prolog use many functions as necessary to ensure readability.
+* Use a version control to organize your code
+* Anticipate all kind of problems, so your program dont crash.
+* Do not edit code minutes previous to the  deadline.
 
 # References
 
-* http://mathworld.wolfram.com/PanmagicSquare.html
-* https://en.wikipedia.org/wiki/Pandiagonal_magic_square
-* http://www.grogono.com/magic/4x4.php
-* http://www.dipmat.unict.it/~barba/PROG-LANG/PROGRAMMI-TESTI/READING-MATERIAL/BasicsOfProlog
-* http://www.swi-prolog.org/packages/jpl/java_api/low-level_interface.html
-* http://docs.oracle.com/javase/tutorial/uiswing/
-* http://kti.ms.mff.cuni.cz/~bartak/prolog.old/learning.html
-* http://www.cs.toronto.edu/~dianaz/2501/prologBasics.html
+* Weisstein, Eric W. "Panmagic Square." From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/PanmagicSquare.html
+* W. S. Andrews, Magic Squares and Cubes. New York: Dover, 1960. Originally printed in 1917. See especially Chapter X.
+* Wikipedia. Wikimedia Foundation, n.d. Web. 4 Sept. 2015. https://en.wikipedia.org/wiki/Pandiagonal_magic_square
+* "The 4x4 Pan-Magic Squares." The 4x4 Pan-Magic Squares. N.p., n.d. Web. 04 Sept. 2015.  http://www.grogono.com/magic/4x4.php
+* "The Basics of Prolog." The Basics of Prolog. N.p., n.d. Web. 04 Sept. 2015.  http://www.dipmat.unict.it/~barba/PROG-LANG/PROGRAMMI-TESTI/READING-MATERIAL/BasicsOfProlog
+* "Low-Level Interface." Low-Level Interface. N.p., n.d. Web. 04 Sept. 2015.  http://www.swi-prolog.org/packages/jpl/java_api/low-level_interface.html
+* "Trail: Creating a GUI With JFC/Swing." (The Java™ Tutorials). N.p., n.d. Web. 04 Sept. 2015.  http://docs.oracle.com/javase/tutorial/uiswing/
+* "LEARNING PROLOG VIA EXAMPLES." Prolog Guide: Learning. N.p., n.d. Web. 04 Sept. 2015. http://kti.ms.mff.cuni.cz/~bartak/prolog.old/learning.html
+* "CSC485 / CSC 2501 Prolog Basics." CSC485 / CSC 2501 Prolog Basics. N.p., n.d. Web. 04 Sept. 2015. http://www.cs.toronto.edu/~dianaz/2501/prologBasics.html
