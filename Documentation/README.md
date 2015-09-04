@@ -40,22 +40,28 @@ The SANC method consists on building four different matrixes: S, A, N and C. Eac
 
 **Roberto Bonilla**
 
-| Activity                    | Description                          | Time(h)   |
-|:---------------------------:|:------------------------------------:|:---------:|
-|Meeting with Pablo           | Research                         	 | 1         |
-|Research                     | Building methods                     |1       |
-|Development                  | SANC Matrix builder for the generator |   4   |
+| Activity                    | Description                           | Time(h) |
+|:---------------------------:|:-------------------------------------:|:-------:|
+|Meeting with Pablo           | Discussion and research               |   1     |
+|Research                     | Building methods and permutations     |   3     |
+|Development                  | SANC Matrix builder for the generator |   2     |
+|Development                  | Generator and analyzer                |   2     |
+|Development                  | Permutations                          |   4     |
+|Development                  | ShowAll                               |   6     |
+
+Time sum: 18 h.
+
 
 **Pablo Rodriguez**
 
 Duration      | Activity      | Description
 ------------- | ------------- | -------------
-1h | Meeting | Discussing th project with Roberto
+1h | Meeting  | Discussing th project with Roberto
 5h | Research | Learning the basics of Prolog
 3h | Research | Learning about the Diabolic Magic Squares
-3h | Coding | Programming some basic validation of magic squares
+3h | Coding   | Programming some basic validation of magic squares
 3h | Research | Configuring swi-prolog with java
-5h | Coding | Programing the GUI of java swing
+5h | Coding   | Programing the GUI of java swing
 
 
 
