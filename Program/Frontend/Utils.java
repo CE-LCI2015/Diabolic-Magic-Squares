@@ -4,6 +4,11 @@ package Frontend;
  * Created by pablo on 28/08/15.
  */
 public class Utils {
+    /**
+     * Converts matrix to string
+     * @param matrix
+     * @return
+     */
     static public String stringify(int[][]matrix)
     {
         String result = "";

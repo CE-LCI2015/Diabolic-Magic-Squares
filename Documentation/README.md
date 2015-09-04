@@ -108,8 +108,9 @@ From these three basic squares all of the other possible squares can be made.
   and each rotation can be reflected. Therefore, 3 x 16 x 8 = 384 regular, order four, pan-magic squares can be derived
   from these three basic squares.
 
-  The project FrontEnd was designed in Java because the integration of swi-prolog through the library JPL.
-  the GUI design is easier
+  The project FrontEnd was designed in Java because the integration of swi-prolog through the library JPL. This library provides a
+  well documented interface to prolog and well known also. The GUI design is easier , it saves time and increases productivity. But it decreases
+  the efficiency of the program unfortunately.
 
 # Student's Activity Log
 

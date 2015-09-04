@@ -20,6 +20,10 @@ public class ShowMatrix {
     private JLabel counterLabel;
     private static JFrame frame;
 
+    /**
+     * Starts a new gui for displaying results
+     * @param matrixList the matrix list
+     */
     public static void main(int[][][] matrixList) {
         frame = new JFrame("ShowMatrix");
         frame.setContentPane(new ShowMatrix(matrixList).main);
@@ -28,6 +32,10 @@ public class ShowMatrix {
         frame.setVisible(true);
     }
 
+    /**
+     * Constructor of the gui showing matrices
+     * @param pList
+     */
     public ShowMatrix(int[][][] pList) {
 
         list = pList;
@@ -41,6 +49,9 @@ public class ShowMatrix {
         });
     }
 
+    /**
+     * Creatree the matrix
+     */
     private void createLabels() {
         counterLabel.setText(list.length+" results");
         for (int k = 0; k <list.length; k++) {
@@ -58,7 +69,9 @@ public class ShowMatrix {
     }
 
 
-
+    /**
+     * Custrom create of labels and panel
+     */
     private void createUIComponents() {
         int width = (int)Math.sqrt(list.length);
         if(width > 12) width = 12;

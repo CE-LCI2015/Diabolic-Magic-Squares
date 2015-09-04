@@ -14,6 +14,7 @@ import java.io.File;
  */
 public class Main {
     public static void main(String[] args) {
+        // Charge the consult in Prolog
         String path = new File("Program/Backend/diabolicMagicSquareBackend.pl")
                 .getAbsolutePath();
         System.out.println(path);
@@ -24,7 +25,7 @@ public class Main {
                 );
 
         System.out.println("Consult " + (q1.hasSolution() ? "succeeded" : "failed"));
-
+        //Start the GUI
         MagicSquares.main();
 
 
