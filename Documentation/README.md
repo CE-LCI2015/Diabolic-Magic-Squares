@@ -148,6 +148,9 @@ all the messages indicating what the error is and when it applies the specific l
 # Conclusions
 
 Prolog is a good lenguage for logical designs. It provides the a lot of tools to solve inferences that helps on decisions and mathematical algorithms.
+Almost every issue can be solved using mathematical algoritms. With or without numbers, it's important to count them as a possible solution.
+The magic squares are peculiar and funny shapes. There are important on mythology and it's because of their beauty and perfection.
+To learn a programming language, it's important to practice: implementing primitive functions is a very good idea.
 
 # Suggestions and recommendations
 * Use a GUI Designer to improve the time of creation.
@@ -155,6 +158,7 @@ Prolog is a good lenguage for logical designs. It provides the a lot of tools to
 * Use a version control to organize your code
 * Anticipate all kind of problems, so your program dont crash.
 * Do not edit code minutes previous to the  deadline.
+* Do not use the functions that a language provides, do everything by your own, it's easier to learn in that way.
 
 # References
 
