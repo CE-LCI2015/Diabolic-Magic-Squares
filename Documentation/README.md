@@ -146,6 +146,8 @@ all the messages indicating what the error is and when it applies the specific l
 
 # Conclusions
 
+Prolog is a good lenguage for logical designs. It provides the a lot of tools to solve inferences that helps on decisions and mathematical algorithms.
+
 # Suggestions and recommendations
 
 # References
