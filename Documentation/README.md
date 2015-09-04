@@ -51,7 +51,6 @@ The SANC method consists on building four different matrixes: S, A, N and C. Eac
 
 Time sum: 18 h.
 
-
 **Pablo Rodriguez**
 
 Duration      | Activity      | Description
